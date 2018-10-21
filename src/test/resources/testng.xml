@@ -11,7 +11,7 @@
 
 
         <classes>
-            <class name="homework.homeworkN1.HomeWork1"/>
+            <class name="homework.hm1.Ex1"/>
         </classes>
     </test>
 </suite>
