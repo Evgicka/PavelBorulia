@@ -15,8 +15,9 @@ public class Ex1 extends TestBase {
 
     public WebDriver driver;
 
-    @Test(dataProvider = "headerDataProvider", dataProviderClass = DataProviders.class)
-    public void ex1(String headerName, int point) {
+    @Test
+    public void ex1()
+    {
         //1. Open driver
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -42,8 +43,11 @@ public class Ex1 extends TestBase {
         //7. check 4 items;
         List<WebElement> headerItems = driver.findElements(By.cssSelector(".uui-navigation.nav.navbar-nav.m-l8 > li"));
         assertEquals(headerItems.size(), 4);
+        String headerText[] = {"HOME", "CONTACT FORM", "SERVICE", "METALS & COLORS" };
+        int i = 0;
         for (WebElement element : headerItems) {
-            headerItems.contains(headerName);
+            assertEquals(element.getText(),headerText[i]);
+            i++;
         }
 
         //8. check 4 images
@@ -68,24 +72,32 @@ public class Ex1 extends TestBase {
                 "ET DOLORE MAGNA ALIQUA. UT ENIM AD MINIM VENIAM, QUIS NOSTRUD EXERCITATION ULLAMCO LABORIS NISI UT ALIQUIP EX EA COMMODO CONSEQUAT DUIS AUTE IRURE DOLOR IN REPREHENDERIT" +
                 " IN VOLUPTATE VELIT ESSE CILLUM DOLORE EU FUGIAT NULLA PARIATUR.");
 
-        //11. check iframe
+        //11. check iframe and logo in left top
         driver.findElement(By.id("iframe"));
-
-        //12. check iframe left top logo
         driver.switchTo().frame("iframe");
         driver.findElement(By.id("epam_logo"));
+
+
+        //12.Switch to original window back
         driver.switchTo().defaultContent();
 
-        //13. check jdi text
+        //13.Assert a text of the sub header
         driver.findElement(By.cssSelector("h3.text-center > a")).isDisplayed();
         assertEquals(driver.findElement(By.cssSelector("h3.text-center > a")).getText(),"JDI GITHUB");
 
-        //14. check jdi url
+        //14.Assert that JDI GITHUB is a link and has a proper URL
         driver.findElement(By.linkText("JDI GITHUB")).isDisplayed();
         assertEquals(driver.findElement(By.cssSelector("h3.text-center > a")).getAttribute("href"), "https://github.com/epam/JDI");
 
-        //15. close browser
+        //15.Assert that there is Left Section
+        driver.findElement(By.id("mCSB_1")).isDisplayed();
+
+        //16.footer is displayed
+        driver.findElement(By.cssSelector("div.footer-content.overflow")).isDisplayed();
+
+        //17. close browser
         driver.close();
+
 
 
     }

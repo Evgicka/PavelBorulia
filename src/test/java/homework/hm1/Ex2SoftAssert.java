@@ -16,8 +16,8 @@ public class Ex2SoftAssert extends TestBase {
 
     public WebDriver driver;
 
-    @Test(dataProvider = "headerDataProvider", dataProviderClass = DataProviders.class)
-    public void ex2SofAssert(String headerName, int point) {
+    @Test
+    public void ex2SoftAssert() {
         //0. softassert init
         SoftAssert softAssertion= new SoftAssert();
         //1. Open driver
@@ -43,10 +43,14 @@ public class Ex2SoftAssert extends TestBase {
 
         //7. check 4 items;
         List<WebElement> headerItems = driver.findElements(By.cssSelector(".uui-navigation.nav.navbar-nav.m-l8 > li"));
-        softAssertion.assertEquals(headerItems.size(), 4);
+        assertEquals(headerItems.size(), 4);
+        String headerText[] = {"HOME", "CONTACT FORM", "SERVICE", "METALS & COLORS" };
+        int i = 0;
         for (WebElement element : headerItems) {
-            headerItems.contains(headerName);
+            softAssertion.assertEquals(element.getText(),headerText[i]);
+            i++;
         }
+
 
         //8. check 4 images
         List<WebElement> imageColums = driver.findElements(By.cssSelector(".icons-benefit"));
@@ -70,23 +74,29 @@ public class Ex2SoftAssert extends TestBase {
                    "ET DOLORE MAGNA ALIQUA. UT ENIM AD MINIM VENIAM, QUIS NOSTRUD EXERCITATION ULLAMCO LABORIS NISI UT ALIQUIP EX EA COMMODO CONSEQUAT DUIS AUTE IRURE DOLOR IN REPREHENDERIT" +
                 " IN VOLUPTATE VELIT ESSE CILLUM DOLORE EU FUGIAT NULLA PARIATUR.");
 
-        //11. check iframe
+        //11. check iframe and logo in left top
         driver.findElement(By.id("iframe"));
-
-        //12. check iframe left top logo
         driver.switchTo().frame("iframe");
         driver.findElement(By.id("epam_logo"));
+
+
+        //12.Switch to original window back
         driver.switchTo().defaultContent();
 
-        //13. check jdi text
+        //13.Assert a text of the sub header
         driver.findElement(By.cssSelector("h3.text-center > a")).isDisplayed();
         softAssertion.assertEquals(driver.findElement(By.cssSelector("h3.text-center > a")).getText(),"JDI GITHUB");
 
-        //14. check jdi url
+        //14.Assert that JDI GITHUB is a link and has a proper URL
         driver.findElement(By.linkText("JDI GITHUB")).isDisplayed();
         softAssertion.assertEquals(driver.findElement(By.cssSelector("h3.text-center > a")).getAttribute("href"), "https://github.com/epam/JDI");
 
-        //15. close browser
+        //15.Assert that there is Left Section
+        driver.findElement(By.id("mCSB_1")).isDisplayed();
+
+        //16.footer is displayed
+        driver.findElement(By.cssSelector("div.footer-content.overflow")).isDisplayed();
+        //17. close browser
         softAssertion.assertAll();
         driver.close();
 
